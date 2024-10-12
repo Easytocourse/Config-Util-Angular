@@ -1,0 +1,114 @@
+/* database-actions.component.css */
+.dialog-content {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow-y: auto;
+    height: calc(100% - 64px);
+  }
+  
+  .expansion-panel {
+    margin-bottom: 15px;
+  }
+  
+  .db-info-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+  }
+  
+  /* .button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 1px;
+  } */
+  
+  .mat-raised-button {
+    margin-top: 10px;
+  }
+  
+  .info-section {
+    margin-top: 15px;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+  }
+  
+  .mat-dialog-container {
+    padding: 0;
+  }
+  
+  /* resultbox css*/
+  .db-details-box {
+    padding: 16px;
+    margin-top: 12px;
+    border: 1px solid #e0e0e0; /* Light gray border */
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  }
+  
+  .db-details-box p {
+    margin: 0;
+    margin-bottom: 8px; /* Spacing between paragraphs */
+  }
+  
+  .db-details-box button {
+    margin-top: 16px; /* Top margin for button */
+  }
+  
+  /*form group css*/
+  .form-group-container {
+    display: flex;
+    justify-content: space-between; /* Adjust as needed */
+    align-items: center; /* Align items vertically */
+  }
+  
+  .form-group {
+    flex: 1; /* Each form-group takes equal space */
+    margin-right: 10px; /* Adjust spacing between form-groups */
+  }
+  
+  .form-group:last-child {
+    margin-right: 0; /* Remove margin from last form-group */
+  }
+  
+  .form-group {
+    margin-bottom: 10px; /* Adjust spacing between form groups */
+  }
+  
+  .small-input {
+    width: 200px; /* Adjust width of the input fields */
+  }
+  
+  /* .button-group {
+    display: flex;
+  } */
+  
+  .mat-button {
+    min-width: 5px; /* Reset min-width set by Angular Material */
+  }
+  
+  .small-button {
+    flex: 1; /* Make buttons take equal space */
+    margin-right: 2px; /* Adjust spacing between buttons */
+    min-width: 0; /* Remove minimum width */
+  }
+  

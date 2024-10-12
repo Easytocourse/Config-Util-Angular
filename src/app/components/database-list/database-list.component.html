@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="container">
+      <mat-form-field style="width: 80%;">
+        <input matInput [(ngModel)]="searchkey" placeholder="search" autocomplete="off" (keyup)="applyFilter()">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchkey" (click)="searchclear()"><mat-icon>close</mat-icon></button>          
+      </mat-form-field>
+  </div>
+  </div>
+  <!-- <div *ngIf="showspinner" class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div> -->
+  <div class="container" machineTablestyle="width:100%;">
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="machineName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Machine Name </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.machineName}} </mat-cell>
+        </ng-container>
+  
+          <ng-container matColumnDef="ipAddress">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ipAddress </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.ipAddress}} </mat-cell>
+          </ng-container>
+        
+          
+          <ng-container matColumnDef="typeofDb">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> typeofDb </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.typeOfDb}} </mat-cell>
+          </ng-container>
+        
+          
+          <!-- <ng-container matColumnDef="schemas">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> schemas </mat-header-cell>
+            <mat-cell *matCellDef="let element" matTooltip="{{ element.schemas.join(', ') }}">
+              {{ element.schemas.slice(0, 2).join(', ') }}
+              <span *ngIf="element.schemas.length > 2">...</span>
+            </mat-cell>
+          </ng-container> -->
+
+          <ng-container matColumnDef="schemas">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> schemas </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.schemas.slice(0, 2).join(', ') }}
+              <span *ngIf="element.schemas.length > 2">
+                <ng-container *ngIf="element.schemas.length > 2">
+                  <mat-icon class="expand-icon" matTooltip="{{ element.schemas.join(', ') }}" matTooltipPosition="below" (click)="showAllSchemas($event, element)">unfold_more</mat-icon>
+                </ng-container>
+              </span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="port">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> port </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.port}} </mat-cell>
+          </ng-container>
+  
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-button (click)="openActionDialog(element)"><mat-icon aria-label="Actions">build</mat-icon></button>
+            </mat-cell>
+          </ng-container>
+          <!-- <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button mat-icon-button (click)="showfull(row)"><mat-icon>visibility</mat-icon></button>
+                    <button mat-icon-button (click)="editMachine(row)"><mat-icon>edit</mat-icon></button>                      
+                </mat-cell>
+          </ng-container> -->
+  
+   
+      <!-- <ng-container matColumnDef="loading">
+        <mat-footer-cell *matFooterCellDef colspan="5">
+          <div class="spinner-container">
+            <mat-spinner *ngIf="showspinner"></mat-spinner>
+          </div>
+        </mat-footer-cell>
+      </ng-container> -->
+  
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <!-- <mat-footer-row *matFooterRowDef="['loading']"></mat-footer-row> -->
+  
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+  </div>

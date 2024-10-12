@@ -1,0 +1,51 @@
+<mat-dialog-content>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          {{ machineRow.machineName }}
+          <button mat-icon-button mat-dialog-close class="close-button" aria-label="Close">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-card-title>
+        <mat-card-subtitle>Machine Details</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>IP Address:</strong> {{ machineRow.ipAddress }}</p>
+        <p><strong>Status:</strong> {{ machineRow.status }}</p>
+        <p><strong>Type:</strong> {{ machineRow.type }}</p>
+        
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let database of machineRow.databases">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Database: {{ database.typeOfDb }}
+              </mat-panel-title>
+              <mat-panel-description>
+                Port: {{ database.port }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p><strong>Schemas:</strong> {{ database.schemas.join(', ') }}</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+        
+        <!--Ldap's infp-->
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let ldap of machineRow.ldaps">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Ldap: {{ ldap.typeOfLdap }}
+              </mat-panel-title>
+              <mat-panel-description>
+                Port: {{ ldap.port }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p><strong>username:</strong> {{ ldap.username }}</p>
+            <p><strong>pasword:</strong> {{ ldap.password }}</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+  </mat-dialog-actions>
+  

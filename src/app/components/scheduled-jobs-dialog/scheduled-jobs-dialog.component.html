@@ -1,0 +1,87 @@
+<h1 mat-dialog-title>Scheduled Jobs</h1>
+
+<div mat-dialog-content>
+  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <!-- Job Name Column -->
+    <ng-container matColumnDef="hostname">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Host Name </mat-header-cell>
+        <mat-cell *matCellDef="let job"> {{job.hostname}} </mat-cell>
+    </ng-container>
+
+    <!-- Job Name Column -->
+    <ng-container matColumnDef="jobName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Job Name </mat-header-cell>
+      <mat-cell *matCellDef="let job"> {{job.jobName}} </mat-cell>
+    </ng-container>
+
+    <!-- Job Group Column -->
+    <ng-container matColumnDef="jobGroup">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Job Group </mat-header-cell>
+      <mat-cell *matCellDef="let job"> {{job.jobGroup}} </mat-cell>
+    </ng-container>
+
+    <!-- Job Status Column -->
+    <ng-container matColumnDef="jobStatus">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Job Status </mat-header-cell>
+      <mat-cell *matCellDef="let job"> {{job.jobStatus}} </mat-cell>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="desc">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+      <mat-cell *matCellDef="let job"> {{job.desc}} </mat-cell>
+    </ng-container>
+
+    <!-- Date/Time Column -->
+    <ng-container matColumnDef="dateTime">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Date/Time </mat-header-cell>
+      <mat-cell *matCellDef="let job"> {{job.dateTime}} </mat-cell>
+    </ng-container>
+
+    <!-- Filepath Column -->
+    <ng-container matColumnDef="filepath">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Filepath </mat-header-cell>
+      <mat-cell *matCellDef="let job"> {{job.filepath}} </mat-cell>
+    </ng-container>
+
+    <!-- Result Filepath Column -->
+    <ng-container matColumnDef="resultfilepath">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Result Filepath </mat-header-cell>
+      <mat-cell *matCellDef="let job"> {{job.resultfilepath}} </mat-cell>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <!-- <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+      <mat-cell *matCellDef="let job">
+        <button mat-icon-button (click)="viewJobDetails(job)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button mat-icon-button (click)="cancelJob(job)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container> -->
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+       <mat-cell *matCellDef="let job">
+        <button mat-icon-button  matTooltip="Edit Job" (click)="editJob(job)" [disabled]="job.jobStatus=='Completed' || !isEditable(job)"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button  matTooltip="Delete Job" (click)="deleteJob(job)" [disabled]="!isDeletable(job)"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button  matTooltip="Show Job Output" (click)="viewStatus(job)"><mat-icon>visibility</mat-icon></button>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Close</button>
+</div>

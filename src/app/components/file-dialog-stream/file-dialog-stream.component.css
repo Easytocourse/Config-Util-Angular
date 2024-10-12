@@ -1,0 +1,15 @@
+.file-content-container {
+    max-height: 400px; /* Limit the height of the output area */
+    overflow-y: auto;  /* Enable scrolling */
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    white-space: pre-wrap; /* Ensure newlines are preserved */
+  }
+  
+  .toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+  

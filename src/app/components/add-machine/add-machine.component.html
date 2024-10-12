@@ -1,0 +1,175 @@
+<!-- <div class="container">
+  <h2>Add Machine</h2>
+  <form [formGroup]="machineForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <label for="machineName">Machine Name:</label>
+          <input type="text" id="machineName" class="form-control" formControlName="machineName">
+        </div>
+       </div>
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <label for="ipAddress">IP Address:</label>
+          <input type="text" id="ipAddress" class="form-control" formControlName="ipAddress">
+        </div>
+    </div>
+   </div>
+
+   <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <input type="text" id="status" class="form-control" formControlName="status">
+      </div>
+   </div>
+   <div class="form-group col-md-6">
+      <div class="form-group">
+        <label for="type">Type:</label>
+        <input type="text" id="type" class="form-control" formControlName="type">
+      </div>
+  </div>
+  </div>
+    <div formArrayName="databases">
+      <div *ngFor="let db of databases.controls; let i = index" [formGroupName]="i" class="database-group">
+        <h3>Database {{ i + 1 }}</h3>
+        <div class="form-group">
+          <label for="typeOfDb">Type of Database:</label>
+          <input type="text" id="typeOfDb" class="form-control" formControlName="typeOfDb">
+        </div>
+        <div class="form-group">
+          <label for="port">Port:</label>
+          <input type="number" id="port" class="form-control" formControlName="port">
+        </div>
+        <div class="form-group">
+          <label for="schemas">Schemas (comma separated):</label>
+          <input type="text" id="schemas" class="form-control" formControlName="schemas">
+        </div>
+        <button type="button" (click)="removeDatabase(i)" class="btn btn-danger">Remove Database</button>
+      </div>
+    </div>
+
+    <button type="button" (click)="addDatabase()" class="btn btn-success">Add Database</button>
+    <button type="submit" class="btn btn-primary">Add Machine</button>
+  </form>
+</div> -->
+
+
+<div class="container">
+  <h2>Add Machine</h2>
+  <form [formGroup]="machineForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="machineName">Machine Name:</label>
+        <input type="text" id="machineName" class="form-control" formControlName="machineName">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="ipAddress">IP Address:</label>
+        <input type="text" id="ipAddress" class="form-control" formControlName="ipAddress">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="status">Status:</label>
+        <input type="text" id="status" class="form-control" formControlName="status" readonly>
+        <mat-icon class="get-status-icon" matTooltip="Get Status" (click)="checkStatus()">refresh</mat-icon>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="type">Type:</label>
+        <input type="text" id="type" class="form-control" formControlName="type">
+      </div>
+    </div>
+
+    <h3>
+      Databases: 
+      <a href="javascript:void(0)" (click)="addDatabase()">
+        <mat-icon>add</mat-icon> Add Database
+      </a>
+    </h3>
+
+    <mat-accordion formArrayName="databases">
+      <mat-expansion-panel *ngFor="let db of databases.controls; let i = index" [formGroupName]="i">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>storage</mat-icon> Database {{ i + 1 }}
+          </mat-panel-title>
+          <mat-panel-description>
+            Details for Database {{ i + 1 }}
+          </mat-panel-description>
+          <button mat-icon-button (click)="removeDatabase(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-expansion-panel-header>
+        
+        <mat-card>
+          <div class="form-group">
+            <label for="typeOfDb">Type of Database:</label>
+            <select id="typeOfDb" class="form-control" formControlName="typeOfDb">
+              <option value="" disabled>Select Database Type</option>
+              <option *ngFor="let dbType of dbTypes" [value]="dbType">{{ dbType }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="port">Port:</label>
+            <input type="number" id="port" class="form-control" formControlName="port">
+          </div>
+          <div class="form-group">
+            <label for="schemas">Schemas (comma separated):</label>
+            <input type="text" id="schemas" class="form-control" formControlName="schemas">
+          </div>
+        </mat-card>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <h3>
+      Ldap's: 
+      <a href="javascript:void(0)" (click)="addLdap()">
+        <mat-icon>add</mat-icon> Add Ldap
+      </a>
+    </h3>
+
+    <mat-accordion formArrayName="ldaps">
+      <mat-expansion-panel *ngFor="let ldap of ldaps.controls; let i = index" [formGroupName]="i">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>storage</mat-icon> Ldap {{ i + 1 }}
+          </mat-panel-title>
+          <mat-panel-description>
+            Details for Ldap {{ i + 1 }}
+          </mat-panel-description>
+          <button mat-icon-button (click)="removeLdap(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-expansion-panel-header>
+        
+        <mat-card>
+          <div class="form-group">
+            <label for="typeOfLdap">Type of Ldap:</label>
+            <select id="typeOfLdap" class="form-control" formControlName="typeOfLdap">
+              <option value="" disabled>Select Ldap Type</option>
+              <option *ngFor="let ldapType of ldapTypes" [value]="ldapType">{{ ldapType }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="port">Port:</label>
+            <input type="number" id="port" class="form-control" formControlName="port">
+          </div>
+          <div class="form-group">
+            <label for="user">User:</label>
+            <input type="text" id="username" class="form-control" formControlName="username">
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="text" id="password" class="form-control" formControlName="password">
+          </div>
+        </mat-card>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <button type="submit" class="btn btn-primary mt-3">Add Machine</button>
+  </form>
+</div>
+
+
+

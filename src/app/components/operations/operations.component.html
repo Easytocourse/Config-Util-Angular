@@ -1,0 +1,174 @@
+
+
+<div class="row">
+  <div class="col-sm-3">
+    <mat-expansion-panel *ngFor="let api of availableApis" [expanded]="expandedPanels[api.endpoint]">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{api.name}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+    
+      <form>
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="apiCredentials[api.endpoint].username" name="username" />
+        </mat-form-field>
+    
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput [(ngModel)]="apiCredentials[api.endpoint].password" name="password" type="password" />
+        </mat-form-field>
+    
+        <ng-container *ngIf="api.endpoint === '/readFile'">
+          <mat-form-field appearance="fill">
+            <mat-label>File Path</mat-label>
+            <input matInput [(ngModel)]="filePath" name="filePath" />
+          </mat-form-field> 
+        </ng-container>
+
+        <ng-container *ngIf="api.endpoint === '/uploadFile'">
+          <mat-form-field appearance="fill">
+            <mat-label>File Path</mat-label>
+            <input matInput [(ngModel)]="filePath" name="filePath" />
+          </mat-form-field> 
+
+          <div>
+            <mat-label>File Upload</mat-label>
+            <input type="file" (change)="onFileChange($event)" />
+          </div>
+        </ng-container>
+    
+        <ng-container *ngIf="api.endpoint === '/testuploadAndSchedule'">
+          <mat-form-field appearance="fill">
+            <mat-label>Folder Path</mat-label>
+            <input matInput [(ngModel)]="folderPath" name="folderPath" />
+          </mat-form-field>
+    
+          <mat-form-field appearance="fill">
+            <mat-label>Description</mat-label>
+            <input matInput [(ngModel)]="scheduleModel.desc" name="desc" placeholder="Description" />
+          </mat-form-field>
+    
+           <mat-form-field appearance="fill">
+            <mat-label>Job Group</mat-label>
+            <input matInput [(ngModel)]="scheduleModel.jobGroup" name="jobGroup" placeholder="Job Group" />
+          </mat-form-field>
+    
+          <mat-form-field appearance="fill">
+            <mat-label>Job Name</mat-label>
+            <input matInput [(ngModel)]="scheduleModel.jobName" name="jobName" placeholder="Job Name" />
+          </mat-form-field>
+          
+          <div>
+              <mat-label>File Upload</mat-label>
+              <input  type="file" (change)="onFileSelected($event)" />
+          </div> 
+
+          <div class="form-group">
+            <label for="datePicker">Select Date</label>
+            <input type="datetime-local"
+                   class="form-control"
+                   bsDatepicker
+                   [(ngModel)]="scheduleModel.dateTime"
+                   name="datePicker"
+                   placeholder="Select date" 
+                   (change)="onDateTimeChange($event)" />
+          </div>
+        </ng-container>
+        
+        <ng-container *ngIf="api.endpoint === '/showScheduledJobs'">
+        </ng-container>
+    
+        <button mat-raised-button color="primary" (click)="callApi(api.endpoint)">Execute</button>
+      </form>
+    </mat-expansion-panel>
+ </div>
+ <div class="col-sm-8">
+  <div>
+
+      <h2>API Result</h2>
+
+      <button *ngIf="responseContent" mat-icon-button class="copy-button" (click)="copyToClipboard()">
+        <mat-icon>copy_all</mat-icon>
+      </button>
+      
+      <button *ngIf="responseContent" mat-icon-button class="clear-button" (click)="clearResponse()">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+    <!-- Display API Response -->
+    <pre class="result-content">{{ responseContent }}</pre>
+    <!-- Conditionally show the scheduled jobs table if the responseContent is available -->
+  <div *ngIf="hasjobs">
+    <mat-table [dataSource]="scheduledJobData" class="mat-elevation-z8">
+
+      <!-- Job Name Column -->
+      <ng-container matColumnDef="jobName">
+        <mat-header-cell *matHeaderCellDef> Job Name </mat-header-cell>
+        <mat-cell *matCellDef="let job"> {{job.jobName}} </mat-cell>
+      </ng-container>
+
+      <!-- Job Group Column -->
+      <ng-container matColumnDef="jobGroup">
+        <mat-header-cell *matHeaderCellDef> Job Group </mat-header-cell>
+        <mat-cell *matCellDef="let job"> {{job.jobGroup}} </mat-cell>
+      </ng-container>
+
+      <!-- Job Status Column -->
+      <ng-container matColumnDef="jobStatus">
+        <mat-header-cell *matHeaderCellDef> Job Status </mat-header-cell>
+        <mat-cell *matCellDef="let job"> {{job.jobStatus}} </mat-cell>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="desc">
+        <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+        <mat-cell *matCellDef="let job"> {{job.desc}} </mat-cell>
+      </ng-container>
+
+      <!-- Date/Time Column -->
+      <ng-container matColumnDef="dateTime">
+        <mat-header-cell *matHeaderCellDef> Date/Time </mat-header-cell>
+        <mat-cell *matCellDef="let job"> {{job.dateTime}} </mat-cell>
+      </ng-container>
+
+      <!-- Filepath Column -->
+      <ng-container matColumnDef="filepath">
+        <mat-header-cell *matHeaderCellDef> Filepath </mat-header-cell>
+        <mat-cell *matCellDef="let job"> {{job.filepath}} </mat-cell>
+      </ng-container>
+
+      <!-- Result Filepath Column -->
+      <ng-container matColumnDef="resultfilepath">
+        <mat-header-cell *matHeaderCellDef> Result Filepath </mat-header-cell>
+        <mat-cell *matCellDef="let job"> {{job.resultfilepath}} </mat-cell>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let job">
+          <button mat-icon-button (click)="viewJobDetails(job)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-icon-button (click)="cancelJob(job)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Table Headers and Rows -->
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <div mat-dialog-actions>
+      <button mat-button (click)="closeDialog()">Close</button>
+    </div>
+  </div>
+  </div>
+</div>
+</div>

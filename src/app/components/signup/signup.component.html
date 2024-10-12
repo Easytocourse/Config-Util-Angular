@@ -1,0 +1,21 @@
+<mat-card>
+    <mat-card-content>
+      <h2>Sign Up</h2>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <input matInput placeholder="Email" formControlName="username" required>
+          <mat-error>Please provide a valid email address</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Password" formControlName="password" type="password" required>
+          <mat-error>Password is required (min length 6)</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Confirm Password" formControlName="confirmPassword" type="password" required>
+          <mat-error>Passwords must match</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid">Sign Up</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  

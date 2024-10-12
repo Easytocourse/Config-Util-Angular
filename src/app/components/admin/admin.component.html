@@ -1,0 +1,49 @@
+<mat-card>
+  <mat-card-content>
+    <h2>Admin Dashboard</h2>
+    <table mat-table [dataSource]="users" class="mat-elevation-z8">
+      <!-- Username Column -->
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let user"> {{user.username}} </td>
+      </ng-container>
+
+      <!-- Role Column -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef> Role </th>
+        <td mat-cell *matCellDef="let user"> {{user.role}} </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let user">
+          <button mat-button (click)="selectUser(user)">Edit</button>
+          <button mat-button (click)="deleteUser(user.id)">Delete</button>
+        </td>
+      </ng-container>
+
+      <!-- Header and Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-card *ngIf="selectedUser">
+      <mat-card-content>
+        <h3>Edit User</h3>
+        <mat-form-field>
+          <input matInput [(ngModel)]="selectedUser.username" placeholder="Username">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select [(value)]="selectedUser.role" (selectionChange)="onRoleChange($event.value)" placeholder="Role">
+            <mat-option *ngFor="let role of roles" [value]="role">
+              {{role}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="updateUser()">Save</button>
+        <button mat-button (click)="clearForm()">Cancel</button>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

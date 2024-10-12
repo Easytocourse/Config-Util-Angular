@@ -1,0 +1,235 @@
+<!-- <div class="container">
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let machine of machines; let i = index">
+      <mat-card class="machine-card" (mouseenter)="showActions[i] = true" (mouseleave)="showActions[i] = false">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image">
+            <mat-icon>computer</mat-icon>
+          </div>
+          <mat-card-title>{{ machine.machineName }}</mat-card-title>
+          <mat-card-subtitle>{{ machine.ipAddress }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            Status: {{ machine.status }} <br>
+            Type: {{ machine.type }}
+          </p>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let db of machine.databases">
+              <strong>Database Type:</strong> {{ db.typeOfDb }} <br>
+              <strong>Schemas:</strong>
+              <ul>
+                <li *ngFor="let schema of db.schemas">{{ schema }}</li>
+              </ul>
+            </li>
+          </ul>
+        </mat-card-content>
+        <mat-card-actions class="machine-card-actions" [class.visible]="showActions[i]">
+          <button class="test" mat-icon-button color="warn" ><mat-icon>play_arrow</mat-icon></button>
+          <button class="test1" mat-icon-button color="warn"><mat-icon>info</mat-icon></button>
+        </mat-card-actions>
+      </mat-card>
+    </div>  
+  </div>
+</div> -->
+
+
+
+<!-- <mat-grid-list cols="3" rowHeight="4:3">
+  @for (machine of machines; track machine) {
+    <mat-grid-tile
+      [colspan]="1"
+      [rowspan]="1"
+      >
+      <mat-card class="machine-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image">
+            <mat-icon>computer</mat-icon>
+          </div>
+          <mat-card-title>{{ machine.machineName }}</mat-card-title>
+          <mat-card-subtitle>{{ machine.ipAddress }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            Status: {{ machine.status }} <br>
+            Type: {{ machine.type }}
+          </p>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let db of machine.databases">
+              <strong>Database Type:</strong> {{ db.typeOfDb }} <br>
+              <strong>Schemas:</strong>
+              <ul>
+                <li *ngFor="let schema of db.schemas">{{ schema }}</li>
+              </ul>
+            </li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+      <mat-grid-tile-footer>
+        <button class="test" mat-icon-button color="warn" ><mat-icon>play_arrow</mat-icon></button>
+        <button class="test1" mat-icon-button color="warn"><mat-icon>info</mat-icon></button>
+        </mat-grid-tile-footer>
+    </mat-grid-tile>
+  }
+</mat-grid-list> -->
+
+
+<!-- <div class="row">
+<div class="col-md-4 mb-4" *ngFor="let machine of machines; let i = index">
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <mat-icon>computer</mat-icon>
+    </div>
+    <mat-card-title>{{ machine.machineName }}</mat-card-title>
+    <mat-card-subtitle>{{ machine.ipAddress }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p>
+      Status: {{ machine.status }} <br>
+      Type: {{ machine.type }}
+    </p>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let db of machine.databases">
+        <strong>Database Type:</strong> {{ db.typeOfDb }} <br>
+        <strong>Schemas:</strong>
+        <ul>
+          <li *ngFor="let schema of db.schemas">{{ schema }}</li>
+        </ul>
+      </li>
+    </ul>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-icon-button color="primary" aria-label="Example icon button with a edit icon" (click)="editMachine(machine)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button color="primary" aria-label="Example icon button with a info icon">
+      <mat-icon>info</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
+</div>
+</div> -->
+
+<!-- using mat table -->
+
+<div class="container mt-3">
+<div class="row">
+
+  <div class="refresh-controls">
+    <label for="refresh-interval">Refresh Interval (seconds):</label>
+    <select id="refresh-interval" [(ngModel)]="refreshInterval" (change)="updateRefreshInterval()">
+      <option *ngFor="let interval of refreshIntervals" [value]="interval">{{interval}}</option>
+    </select>
+    <button mat-raised-button color="primary" (click)="refreshNow()">Refresh Now</button>
+  </div>
+</div>
+<div class="row">
+  <div class="container col-9">
+    <mat-form-field style="width: 80%;">
+      <input matInput [(ngModel)]="searchkey" placeholder="search" autocomplete="off" (keyup)="applyFilter()">
+      <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchkey" (click)="searchclear()"><mat-icon>close</mat-icon></button>          
+    </mat-form-field>
+  </div>
+  <!-- <div class="advanced-filter col-3">
+    <mat-checkbox [(ngModel)]="filterWithDatabases" (change)="applyFilter()">Filter machines with databases</mat-checkbox>
+    <mat-checkbox [(ngModel)]="filterWithApplications" (change)="applyFilter()">Filter machines with applications</mat-checkbox>
+  </div> -->
+  <div class="view-toggle col-3">
+  <button mat-icon-button (click)="toggleView()">
+    <mat-icon>{{ isGridView ? 'view_list' : 'view_module' }}</mat-icon>
+  </button>
+</div>
+</div>
+</div>
+<!--machine list header will end here-->
+<div *ngIf="isGridView; else listViewTemplate">
+  <div class="grid-container">
+    <div *ngFor="let machine of dataSource.data" class="grid-item">
+      <mat-card class="machine-card">
+        <mat-card-title>{{ machine.machineName }}</mat-card-title>
+        <mat-card-content>
+          <p><strong>IP Address</strong> <span>{{ machine.ipAddress }}</span></p>
+          <p><strong>Status </strong> <span [ngClass]="{'active': machine.status === 'Active', 'inactive': machine.status !== 'Active'}">{{ machine.status }}</span></p>
+          <p><strong>Type</strong> <span>{{ machine.type }}</span></p>
+          <p><strong>Databases</strong> <span>{{ machine.databases.length }}</span></p>
+          <p><strong>Ldaps </strong><span>{{machine.ldaps.length}}</span></p>
+          <!-- <button mat-icon-button (click)="showfull(machine)" *ngIf="isAdmin">
+            <mat-icon>visibility</mat-icon>
+          </button> -->
+        </mat-card-content>
+        <mat-card-actions class="machine-actions">
+          <button mat-icon-button (click)="showfull(machine)" *ngIf="isAdmin">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-icon-button (click)="editMachine(machine)" *ngIf="isAdmin">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteMachine(machine.id)" *ngIf="isAdmin">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #listViewTemplate>
+<div class="container" machineTablestyle="width:100%;">
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="machineName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Machine Name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.machineName}} </mat-cell>
+      </ng-container>
+
+        <ng-container matColumnDef="ipAddress">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> ipAddress </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.ipAddress}} </mat-cell>
+        </ng-container>
+      
+        
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> status </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-icon *ngIf="element.status === 'Active'" class="status-icon active-status">fiber_manual_record</mat-icon>
+            <mat-icon *ngIf="element.status !== 'Active'" class="status-icon inactive-status">fiber_manual_record</mat-icon>
+            {{element.status}}
+          </mat-cell>
+        </ng-container>
+      
+        
+        <ng-container matColumnDef="type">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> type </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                  <button mat-icon-button (click)="showfull(row)"><mat-icon>visibility</mat-icon></button>
+                  <button mat-icon-button (click)="editMachine(row)"><mat-icon>edit</mat-icon></button>
+                  <button *ngIf="isAdmin" mat-icon-button (click)="deleteMachine(row.id)"><mat-icon>delete</mat-icon></button>
+                  <button mat-icon-button (click)="showOperations(row)"><mat-icon>more_horiz</mat-icon></button> 
+              </mat-cell>
+        </ng-container>
+
+ 
+    <ng-container matColumnDef="loading">
+      <mat-footer-cell *matFooterCellDef colspan="5">
+        <div class="spinner-container">
+          <mat-spinner *ngIf="showspinner"></mat-spinner>
+        </div>
+      </mat-footer-cell>
+    </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-footer-row *matFooterRowDef="['loading']"></mat-footer-row>
+
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>
+</div>
+</ng-template>

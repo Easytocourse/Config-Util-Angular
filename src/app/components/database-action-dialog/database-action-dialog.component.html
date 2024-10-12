@@ -1,0 +1,96 @@
+<!-- <h1 mat-dialog-title>Database Actions</h1>
+<div mat-dialog-content>
+  <p>Select an action for each schema:</p>
+  <div class="schemas-container">
+    <div *ngFor="let schema of data.schemas" class="schema-card mat-elevation-z2">
+      <div class="schema-info">
+        <p>{{ schema }}</p>
+      </div>
+      <div class="actions">
+        <button mat-button color="primary" (click)="showDbInfo(schema)">Show DB Info</button>
+        <button mat-button color="warn" (click)="clearSchema(schema)">Clear Schema</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div> -->
+
+<!-- database-actions.component.html -->
+<!-- database-actions.component.html -->
+<h1 mat-dialog-title>Database Actions</h1>
+<div mat-dialog-content class="dialog-content">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let schema of data.schemas" class="expansion-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ schema }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <form [formGroup]="dbInfoForm" class="db-info-form">
+        <div class="form-group-container">
+          <div class="form-group">
+            <label for="hostname">Hostname:</label>
+            <input type="text" id="hostname" formControlName="ipAddress" class="form-control" [value]="data.ipAddress" readonly>
+          </div>
+          <div class="form-group">
+            <label for="schema">Schema:</label>
+            <input type="text" id="schema" formControlName="schema" class="form-control" [value]="schema" readonly>
+          </div>
+          <div class="form-group">
+            <label for="port">Port:</label>
+            <input type="text" id="port" formControlName="port" class="form-control" [value]="data.port" readonly>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" formControlName="username" class="form-control small-input">
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" formControlName="password" class="form-control small-input">
+        </div>
+        <div class="button-group">
+          <button mat-raised-button color="primary" class="small-button" (click)="fetchDbInfo(schema)">Show Info</button>
+          <button mat-raised-button color="warn" class="small-button" (click)="clearSchema(schema)">Clear Schema</button>
+        </div>
+      </form>
+
+      <div class="db-details-box" *ngIf="showspinner">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div *ngIf="errorMessage" class="error-message db-details-box">
+        <p>{{ errorMessage }}</p>
+        <p>{{ errorRootCause }}</p>
+      </div>
+      <div class="db-details-box" *ngIf="dbDetails">
+        <div>
+          <p>Tables: {{ dbDetails.tables }}</p>
+          <p>Views: {{ dbDetails.views }}</p>
+          <p>Stored Procedures: {{ dbDetails.storedProcedures }}</p>
+          <p>Functions: {{ dbDetails.functions }}</p>
+          <p>Sequences: {{ dbDetails.sequences }}</p>
+        </div>
+        <button mat-button color="warn" (click)="clearDbDetails()">close</button>
+      </div>
+      <div class="db-details-box" *ngIf="clearResult">
+        <div>
+        <h3>Clear Schema Results</h3>
+        <p>{{ clearResult.tablesDropped}}</p>
+        <p>{{ clearResult.viewsDropped}}</p>
+        <p>{{ clearResult.proceduresDropped}}</p>
+        <p>{{ clearResult.functionsDropped}}</p>
+        <p>{{ clearResult.sequencesDropped}}</p>
+        <p></p>
+        <p>{{clearResult.timetaken}}</p>
+      </div><button mat-button color="warn" (click)="clearDbDetailsresults()">close</button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-raised-button color="accent" (click)="onNoClick()">Close</button>
+</div>

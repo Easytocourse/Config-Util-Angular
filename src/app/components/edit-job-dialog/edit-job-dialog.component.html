@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>Edit Job</h2>
+<mat-dialog-content>
+  <form [formGroup]="jobForm" (ngSubmit)="onSave()">
+    <mat-form-field>
+      <mat-label>Job Name</mat-label>
+      <input matInput formControlName="jobName">
+      <mat-error *ngIf="jobForm.get('jobName')">
+        Job Name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Job Group</mat-label>
+      <input matInput formControlName="jobGroup">
+      <mat-error *ngIf="jobForm.get('jobGroup')">
+        Job Group is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="desc">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>DateTime</mat-label>
+      <input matInput formControlName="dateTime" type="datetime-local">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Filepath</mat-label>
+      <input matInput formControlName="filepath">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Result Filepath</mat-label>
+      <input matInput formControlName="resultfilepath">
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button color="primary" type="submit">Save</button>
+    </div>
+  </form>
+</mat-dialog-content>

@@ -1,0 +1,155 @@
+.machine-card {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .example-header-image {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  
+  .machine-card-container {
+    position: relative;
+  }
+  .machine-card {
+    height: 250px; /* Set the desired fixed height */
+  }
+  .machine-card-actions {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .machine-card-actions.visible {
+    opacity: 1;
+  }
+
+.mat-card-actions
+{
+    opacity: 0.1;
+}
+.mat-card-actions:hover
+{
+    opacity: 12;
+}
+
+.status-icon {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.active-status {
+  color: green;
+}
+
+.inactive-status {
+  color: red;
+}
+
+.refresh-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.refresh-controls label {
+  margin-right: 10px;
+}
+
+.refresh-controls select {
+  margin-right: 20px;
+  padding: 5px;
+}
+
+.status-icon.active-status {
+  color: green;
+}
+
+.status-icon.inactive-status {
+  color: red;
+}
+
+
+.table-container {
+  position: relative;
+  height: 100%;
+}
+
+.mat-footer-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* Adjust this height based on your needs */
+  padding: 5px; /* Remove padding */
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.view-toggle {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1em;
+}
+.grid-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjust column width as needed */
+  gap: 20px; /* Adjust gap between items */
+  grid-auto-rows: auto;
+  grid-auto-flow: dense; /* Prevents automatic filling of empty spaces */
+}
+
+.grid-item {
+  flex: 1 1 calc(33.333% - 1em);
+  box-sizing: border-box;
+}
+
+.machine-card {
+  width: 100%;
+  padding: 1em;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.machine-card mat-card-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.machine-card mat-card-content {
+  font-size: 1em;
+}
+
+.machine-card p {
+  margin: 0.5em 0;
+}
+
+.machine-card p strong{
+  display: inline-block;
+  width: 120px;
+}
+
+.active {
+  color: green;
+}
+
+.inactive {
+  color: red;
+}
+.machine-actions {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #ccc; /* Optional: Add a border at the top of actions */
+}
+.machine-actions button {
+  margin-left: 8px; /* Optional: Add margin between buttons */
+}

@@ -1,0 +1,19 @@
+<mat-card>
+  <mat-card-content>
+     <h2>Log In</h2>
+     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="username" required>
+        <mat-error>Please provide a valid email address</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Password" formControlName="password" type="password" required>
+        <mat-error>Please provide a valid password</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>    
+    </form>
+    <div class="signup-link">
+      <p>Don't have an account? <a routerLink="/signup">Sign up here</a></p>
+    </div>
+   </mat-card-content>
+ </mat-card>
